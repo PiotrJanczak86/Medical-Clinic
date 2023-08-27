@@ -30,11 +30,41 @@ public class Visit {
     private Doctor doctor;
 
     @Column(name = "DESCRIPTION")
-    @NotNull
     private String description;
 
     @OneToMany(targetEntity = CalendarEntry.class,
             mappedBy = "visit",
             fetch = FetchType.EAGER)
-    public List<CalendarEntry> calendarEntriesList = new ArrayList<>();
+    private List<CalendarEntry> calendarEntriesList = new ArrayList<>();
+
+    public static class VisitBuilder{
+        private Patient patient;
+        private Doctor doctor;
+        private String description;
+        private List<CalendarEntry> calendarEntriesList = new ArrayList<>();
+
+        public VisitBuilder patient(Patient patient){
+            this.patient = patient;
+            return this;
+        }
+        public VisitBuilder doctor(Doctor doctor){
+            this.doctor = doctor;
+            return this;
+        }
+        public VisitBuilder description(String description){
+            this.description = description;
+            return this;
+        }
+        public VisitBuilder calendarEntry(CalendarEntry calendarEntry){
+            calendarEntriesList.add(calendarEntry);
+            return this;
+        }
+        public VisitBuilder calendarEntries(List<CalendarEntry> calendarEntries){
+            calendarEntriesList.addAll(calendarEntries);
+            return this;
+        }
+        public Visit build(){
+            return new Visit(null, patient, doctor, description, calendarEntriesList);
+        }
+    }
 }

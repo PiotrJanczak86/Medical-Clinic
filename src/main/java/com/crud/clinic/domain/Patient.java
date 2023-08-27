@@ -37,8 +37,12 @@ public class Patient {
     @JoinColumn(name = "USER_ID")
     private User user;
 
+    @Column(name = "EMAIL")
+    @NotNull
+    private String mail;
+
     @OneToMany(targetEntity = Visit.class,
             mappedBy = "patient",
             fetch = FetchType.EAGER)
-    public List<Visit> productList = new ArrayList<>();
+    public List<Visit> visitList = new ArrayList<>();
 }

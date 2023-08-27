@@ -15,7 +15,6 @@ import java.time.LocalTime;
 @AllArgsConstructor
 @Entity(name="CALENDAR")
 public class CalendarEntry {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID")

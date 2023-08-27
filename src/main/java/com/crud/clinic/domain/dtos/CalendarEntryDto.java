@@ -1,8 +1,13 @@
 package com.crud.clinic.domain.dtos;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+@AllArgsConstructor
+@Data
 public class CalendarEntryDto {
     private Long doctorId;
     private LocalDate date;

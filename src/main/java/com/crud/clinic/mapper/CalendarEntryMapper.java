@@ -20,17 +20,17 @@ public class CalendarEntryMapper {
     @Autowired
     private VisitService visitService;
 
-    private CalendarEntryDto mapToCalendarEntryDto(final CalendarEntry calendarEntry){
+    public CalendarEntryDto mapToCalendarEntryDto(final CalendarEntry calendarEntry){
         return new CalendarEntryDto(calendarEntry.getDoctor().getId(), calendarEntry.getDate(), calendarEntry.getFrom(), calendarEntry.getUntil(), calendarEntry.getVisit().getId());
     }
 
-    private CalendarEntry mapToCalendarEntry(final CalendarEntryDto calendarEntryDto) throws DoctorNotFoundException, VisitNotFoundException {
+    public CalendarEntry mapToCalendarEntry(final CalendarEntryDto calendarEntryDto) throws DoctorNotFoundException, VisitNotFoundException {
         Visit visit = visitService.getVisit(calendarEntryDto.getVisitId());
         Doctor doctor = doctorService.getDoctor(calendarEntryDto.getDoctorId());
         return new CalendarEntry(null, doctor, calendarEntryDto.getDate(), calendarEntryDto.getFrom(), calendarEntryDto.getUntil(), visit);
     }
 
-    private List<CalendarEntryDto> mapToCalendarEntryDtoList(final List<CalendarEntry> calendarEntries){
+    public List<CalendarEntryDto> mapToCalendarEntryDtoList(final List<CalendarEntry> calendarEntries){
         return calendarEntries.stream()
                 .map(this::mapToCalendarEntryDto)
                 .toList();

@@ -1,36 +1,54 @@
 package com.crud.clinic.controller;
 
+import com.crud.clinic.controller.exceptions.DoctorNotFoundException;
+import com.crud.clinic.controller.exceptions.PatientNotFoundException;
+import com.crud.clinic.controller.exceptions.VisitNotFoundException;
+import com.crud.clinic.domain.Visit;
+import com.crud.clinic.domain.dtos.VisitDto;
+import com.crud.clinic.mapper.VisitMapper;
+import com.crud.clinic.service.VisitService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/visits")
 public class VisitController {
+private final VisitService visitService;
+private final VisitMapper visitMapper;
 
-    @PostMapping(value = "/new/", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> createVisit() {
-        return ResponseEntity.ok(new Object());
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> createVisit(@RequestBody VisitDto visitDto) throws DoctorNotFoundException, PatientNotFoundException {
+        visitService.saveVisit(visitMapper.mapToVisit(visitDto));
+        return ResponseEntity.ok("Visit created");
     }
 
-    @GetMapping(value = "/{visitId}")
-    public ResponseEntity<Object> getVisit() {
-        return ResponseEntity.ok(new Object());
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<VisitDto> getVisit(@PathVariable Long id) throws VisitNotFoundException {
+        return ResponseEntity.ok(visitMapper.mapToVisitDto(visitService.getVisit(id)));
     }
 
-
-    @DeleteMapping (value = "/{visitId}")
-    public ResponseEntity<Object> deleteVisit() {
-        return ResponseEntity.ok(new Object());
+    @GetMapping
+    public ResponseEntity<List<VisitDto>> getVisits(){
+        return ResponseEntity.ok(visitMapper.mapToVisitDtoList(visitService.getVisits()));
     }
 
-
-    @PutMapping(value = "/{visitId}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> updateVisit() {
-        return ResponseEntity.ok(new Object());
+    @DeleteMapping (value = "/{id}")
+    public ResponseEntity<Object> deleteVisit(@PathVariable Long id)throws VisitNotFoundException {
+        visitService.deleteVisit(id);
+        return ResponseEntity.ok("ok");
     }
 
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<VisitDto> updateVisit(@PathVariable Long id, @RequestBody VisitDto visitDto) throws DoctorNotFoundException, PatientNotFoundException {
+        Visit visit = visitMapper.mapToVisit(visitDto);
+        visit.setId(id);
+        visitService.saveVisit(visit);
+        return ResponseEntity.ok(visitDto);
+    }
 }

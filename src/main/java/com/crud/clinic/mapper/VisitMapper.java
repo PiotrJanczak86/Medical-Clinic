@@ -25,14 +25,14 @@ public class VisitMapper {
     @Autowired
     private CalendarEntryService calendarEntryService;
 
-    private VisitDto mapToVisitDto(final Visit visit){
+    public VisitDto mapToVisitDto(final Visit visit){
         List<Long> entriesIds = visit.getCalendarEntriesList().stream()
                 .map(CalendarEntry::getId)
                 .toList();
         return new VisitDto(visit.getPatient().getId(), visit.getDoctor().getId(), visit.getDescription(), entriesIds);
     }
 
-    private Visit mapToVisitDto(final VisitDto visitDto) throws PatientNotFoundException, DoctorNotFoundException {
+    public Visit mapToVisit(final VisitDto visitDto) throws PatientNotFoundException, DoctorNotFoundException {
         List<CalendarEntry> entries = visitDto.getEntriesId().stream()
                 .map(c -> {
                     try {
@@ -47,7 +47,7 @@ public class VisitMapper {
         return new Visit(null, patient, doctor, visitDto.getDescription(), entries);
     }
 
-    private List<VisitDto> mapToVisitDtoList(final List<Visit> visits){
+    public List<VisitDto> mapToVisitDtoList(final List<Visit> visits){
         return visits.stream()
                 .map(this::mapToVisitDto)
                 .toList();

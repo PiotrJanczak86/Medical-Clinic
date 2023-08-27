@@ -26,7 +26,7 @@ public class DoctorMapper {
     @Autowired
     private CalendarEntryService calendarEntryService;
 
-    private DoctorDto mapToDoctorDto(final Doctor doctor){
+    public DoctorDto mapToDoctorDto(final Doctor doctor){
         List<Long> visitIds = doctor.getVisitList().stream()
                 .map(Visit::getId)
                 .toList();
@@ -38,7 +38,7 @@ public class DoctorMapper {
         return new DoctorDto(doctor.getName(), doctor.getLastname(), doctor.getSpecialization(), doctor.getUser().getId(), doctor.getMail(), entryIds, visitIds);
     }
 
-    private Doctor mapToDoctor(final DoctorDto doctorDto) throws UserNotFoundException {
+    public Doctor mapToDoctor(final DoctorDto doctorDto) throws UserNotFoundException {
         List<Visit> visits = doctorDto.getVisitsIdList().stream()
                 .map(v -> {
                     try {
@@ -60,7 +60,7 @@ public class DoctorMapper {
         return new Doctor(null, doctorDto.getName(), doctorDto.getLastname(), doctorDto.getSpecialization(), user, doctorDto.getMail(), visits, entries);
     }
 
-    private List<DoctorDto> mapToDoctorDtoList(final List<Doctor> doctorList){
+    public List<DoctorDto> mapToDoctorDtoList(final List<Doctor> doctorList){
         return doctorList.stream()
                 .map(this::mapToDoctorDto)
                 .toList();

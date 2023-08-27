@@ -1,36 +1,52 @@
 package com.crud.clinic.controller;
 
+import com.crud.clinic.controller.exceptions.PatientNotFoundException;
+import com.crud.clinic.controller.exceptions.UserNotFoundException;
+import com.crud.clinic.domain.Patient;
+import com.crud.clinic.domain.dtos.PatientDto;
+import com.crud.clinic.mapper.PatientMapper;
+import com.crud.clinic.service.PatientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/patients")
 public class PatientController {
+    private final PatientService patientService;
+    private final PatientMapper patientMapper;
 
-    @PostMapping(value = "/new/", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> createPatient() {
-        return ResponseEntity.ok(new Object());
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> createPatient(@RequestBody PatientDto patientDto) throws UserNotFoundException {
+        patientService.savePatient(patientMapper.mapToPatient(patientDto));
+        return ResponseEntity.ok("ok");
     }
 
-    @GetMapping(value = "/{patientId}")
-    public ResponseEntity<Object> getPatient() {
-        return ResponseEntity.ok(new Object());
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<Object> getPatient(@PathVariable Long id)throws PatientNotFoundException {
+        return ResponseEntity.ok(patientMapper.mapToPatientDto(patientService.getPatient(id)));
     }
 
-
-    @DeleteMapping (value = "/{patientId}")
-    public ResponseEntity<Object> deletePatient() {
-        return ResponseEntity.ok(new Object());
+    @GetMapping
+    public ResponseEntity<List<PatientDto>> getPatients(){
+        return ResponseEntity.ok(patientMapper.mapToPatientDtoList(patientService.getPatients()));
     }
 
-
-    @PutMapping(value = "/{patientId}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> updatePatient() {
-        return ResponseEntity.ok(new Object());
+    @DeleteMapping (value = "/{id}")
+    public ResponseEntity<Object> deletePatient(@PathVariable Long id) throws PatientNotFoundException {
+        patientService.deletePatient(id);
+        return ResponseEntity.ok("Patient deleted");
     }
 
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<PatientDto> updatePatient(@PathVariable Long id, @RequestBody PatientDto patientDto) throws UserNotFoundException {
+        Patient patient = patientMapper.mapToPatient(patientDto);
+        patient.setId(id);
+        return ResponseEntity.ok(patientDto);
+    }
 }

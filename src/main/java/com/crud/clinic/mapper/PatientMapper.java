@@ -20,14 +20,14 @@ public class PatientMapper {
     @Autowired
     private UserService userService;
 
-    private PatientDto mapToPatientDto(final Patient patient) {
+    public PatientDto mapToPatientDto(final Patient patient) {
         List<Long> visitIds = patient.getVisitList().stream()
                 .map(Visit::getId)
                 .toList();
         return new PatientDto(patient.getName(), patient.getLastname(), patient.getPesel(), patient.getId(), patient.getMail(), visitIds);
     }
 
-    private Patient mapToPatient(final PatientDto patientDto) throws UserNotFoundException {
+    public Patient mapToPatient(final PatientDto patientDto) throws UserNotFoundException {
         List<Visit> visits = patientDto.getVisitsIdList().stream()
                 .map(v -> {
                     try {
@@ -40,7 +40,7 @@ public class PatientMapper {
         return new Patient(null, patientDto.getName(), patientDto.getLastname(), patientDto.getPesel(), user, patientDto.getMail(), visits);
     }
 
-    private List<PatientDto> mapToPatientDtoList(final List<Patient> patientList) {
+    public List<PatientDto> mapToPatientDtoList(final List<Patient> patientList) {
         return patientList.stream()
                 .map(this::mapToPatientDto)
                 .toList();

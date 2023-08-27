@@ -1,9 +1,16 @@
 package com.crud.clinic.controller;
 
+import com.crud.clinic.controller.exceptions.UserNotFoundException;
+import com.crud.clinic.domain.User;
+import com.crud.clinic.domain.dtos.UserDto;
+import com.crud.clinic.mapper.UserMapper;
+import com.crud.clinic.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @CrossOrigin("*")
@@ -11,26 +18,37 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/users")
 public class UserController {
 
-    @PostMapping(value = "/new/", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> createUser() {
-        return ResponseEntity.ok(new Object());
+    private final UserMapper userMapper;
+    private final UserService userService;
+
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> createUser(@RequestBody UserDto userDto) {
+        userService.saveUser(userMapper.mapToUser(userDto));
+        return ResponseEntity.ok("New user " + userDto.getLogin() + " was successfully created");
     }
 
-    @GetMapping(value = "/{userId}")
-    public ResponseEntity<Object> getUser() {
-        return ResponseEntity.ok(new Object());
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<Object> getUser(@PathVariable Long id) throws UserNotFoundException{
+        return ResponseEntity.ok(userMapper.mapToUserDto(userService.getUser(id)));
     }
 
-
-    @DeleteMapping (value = "/{userId}")
-    public ResponseEntity<Object> deleteUser() {
-        return ResponseEntity.ok(new Object());
+    @GetMapping
+    public ResponseEntity<List<UserDto>> getUsers() {
+        return ResponseEntity.ok(userMapper.mapToUserDtoList(userService.getUsers()));
     }
 
-
-    @PutMapping(value = "/{userId}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> updateUser() {
-        return ResponseEntity.ok(new Object());
+    @DeleteMapping (value = "/{id}")
+    public ResponseEntity<Object> deleteUser(@PathVariable Long id)throws UserNotFoundException {
+        String userName = userService.getUser(id).getLogin();
+        userService.deleteUser(id);
+        return ResponseEntity.ok("User " + userName + " was successfully deleted");
     }
 
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @RequestBody UserDto userDto) {
+        User user = userMapper.mapToUser(userDto);
+        user.setId(id);
+        userService.saveUser(user);
+        return ResponseEntity.ok(userDto);
+    }
 }

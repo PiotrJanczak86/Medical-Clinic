@@ -36,5 +36,5 @@ public class Visit {
     @OneToMany(targetEntity = CalendarEntry.class,
             mappedBy = "visit",
             fetch = FetchType.EAGER)
-    public List<Visit> calendarEntriesList = new ArrayList<>();
+    public List<CalendarEntry> calendarEntriesList = new ArrayList<>();
 }

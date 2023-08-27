@@ -3,7 +3,6 @@ package com.crud.clinic.domain.dtos;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -14,6 +13,6 @@ public class DoctorDto {
     private String specialization;
     private Long userId;
     private String mail;
-    private List<Long> calendarEntriesList = new ArrayList<>();
-    private List<Long> visitsIdList = new ArrayList<>();
+    private List<Long> calendarEntriesList;
+    private List<Long> visitsIdList;
 }

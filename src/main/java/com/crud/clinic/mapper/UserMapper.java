@@ -14,7 +14,7 @@ public class UserMapper {
     }
 
     public UserDto mapToUserDto(final User user){
-        return new UserDto(user.getLogin(), user.getPassword(), user.getRole());
+        return new UserDto(user.getId(), user.getLogin(), user.getPassword(), user.getRole());
     }
 
     public List<UserDto> mapToUserDtoList(final List<User> userList){

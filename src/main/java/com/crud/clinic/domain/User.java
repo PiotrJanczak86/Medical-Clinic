@@ -20,7 +20,7 @@ public class User {
     @NotNull
     private String login;
 
-    @Column(name = "PASSWORD", unique = true)
+    @Column(name = "PASSWORD")
     @NotNull
     private String password;
 

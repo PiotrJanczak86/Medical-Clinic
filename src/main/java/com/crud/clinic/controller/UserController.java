@@ -28,7 +28,7 @@ public class UserController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Object> getUser(@PathVariable Long id) throws UserNotFoundException{
+    public ResponseEntity<UserDto> getUser(@PathVariable Long id) throws UserNotFoundException{
         return ResponseEntity.ok(userMapper.mapToUserDto(userService.getUser(id)));
     }
 

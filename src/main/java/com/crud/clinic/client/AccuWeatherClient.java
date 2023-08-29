@@ -1,7 +1,6 @@
 package com.crud.clinic.client;
 
-import com.crud.clinic.config.ExternalApiConfig;
-import com.crud.clinic.domain.dtos.AcuWeatherDto;
+import com.crud.clinic.domain.dtos.AllergiesDataDto;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -13,11 +12,11 @@ import java.net.URI;
 
 @Component
 @RequiredArgsConstructor
-public class AcuWeatherClient {
+public class AccuWeatherClient {
 
     private final RestTemplate restTemplate;
 
-    public AcuWeatherDto getAllergyInfo() {
+    public AllergiesDataDto getAllergyInfo() {
         URI url = UriComponentsBuilder
                 .fromHttpUrl("http://dataservice.accuweather.com/forecasts/v1/daily/5day/274663")
                 .queryParam("apikey", "Q5bBRpmXrcwdwvrbHBBwDJDIH0xSi3dP")
@@ -51,6 +50,6 @@ public class AcuWeatherClient {
         String tree = object5.getString("Category");
         long treeValue = object5.getLong("Value");
 
-        return new AcuWeatherDto(grass,grassValue,mold,moldValue,ragweed,ragweedValue,tree,treeValue);
+        return new AllergiesDataDto(grass,grassValue,mold,moldValue,ragweed,ragweedValue,tree,treeValue);
     }
 }

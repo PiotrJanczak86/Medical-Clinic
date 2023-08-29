@@ -1,6 +1,6 @@
 package com.crud.clinic.client;
 
-import com.crud.clinic.domain.dtos.CovidDto;
+import com.crud.clinic.domain.dtos.CovidDataDto;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -15,8 +15,7 @@ import org.springframework.web.client.RestTemplate;
 @RequiredArgsConstructor
 public class CovidClient {
     private final RestTemplate restTemplate;
-    private CovidDto covidDto;
-    public CovidDto getTestsPoland() {
+    public CovidDataDto getTestsPoland() {
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("X-RapidAPI-Key", "3cee0139ddmsh0b59ffec28e9384p1cebf0jsn23b3d97a4176");
@@ -44,6 +43,6 @@ public class CovidClient {
         if (object3.isNull("critical")){
             critical = 0L;
         } else critical = object3.getLong("critical");
-        return new CovidDto(deaths, newCases, critical);
+        return new CovidDataDto(deaths, newCases, critical);
     }
 }

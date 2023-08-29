@@ -1,9 +1,11 @@
 package com.crud.clinic.controller;
 
-import com.crud.clinic.client.AcuWeatherClient;
-import com.crud.clinic.client.CovidClient;
-import com.crud.clinic.domain.dtos.AcuWeatherDto;
-import com.crud.clinic.domain.dtos.CovidDto;
+import com.crud.clinic.domain.dtos.AllergiesDataDto;
+import com.crud.clinic.domain.dtos.CovidDataDto;
+import com.crud.clinic.mapper.AccuWeatherMapper;
+import com.crud.clinic.mapper.CovidMapper;
+import com.crud.clinic.service.AccuWeatherService;
+import com.crud.clinic.service.CovidService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -16,16 +18,19 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/external")
 public class ExternalApiController {
-    private final AcuWeatherClient acuWeatherClient;
-    private final CovidClient covidClient;
+
+    private final AccuWeatherService accuWeatherService;
+    private final AccuWeatherMapper accuWeatherMapper;
+    private final CovidService covidService;
+    private final CovidMapper covidMapper;
 
     @GetMapping(value = "/allergy")
-    public ResponseEntity<AcuWeatherDto> getAllergyInfo() {
-        return ResponseEntity.ok(acuWeatherClient.getAllergyInfo());
+    public ResponseEntity<AllergiesDataDto> getAllergyInfo() {
+        return ResponseEntity.ok(accuWeatherMapper.mapToAllergiesDataDto(accuWeatherService.findNewest()));
     }
 
     @GetMapping(value = "/covid")
-    public ResponseEntity<CovidDto> getStatsPoland(){
-        return ResponseEntity.ok(covidClient.getTestsPoland());
+    public ResponseEntity<CovidDataDto> getStatsPoland(){
+        return ResponseEntity.ok(covidMapper.mapToCovidDataDto(covidService.findNewest()));
     }
 }

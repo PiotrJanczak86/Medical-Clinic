@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AcuWeatherDto {
+public class AllergiesDataDto {
     private String grass;
     private Long grassValue;
     private String mold;

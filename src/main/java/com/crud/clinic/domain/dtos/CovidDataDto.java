@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CovidDto {
+public class CovidDataDto {
     private Long deaths;
     private Long cases;
     private Long critical;

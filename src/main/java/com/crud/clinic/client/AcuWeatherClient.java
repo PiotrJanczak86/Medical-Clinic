@@ -1,10 +1,10 @@
 package com.crud.clinic.client;
 
 import com.crud.clinic.config.ExternalApiConfig;
+import com.crud.clinic.domain.dtos.AcuWeatherDto;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -16,12 +16,11 @@ import java.net.URI;
 public class AcuWeatherClient {
 
     private final RestTemplate restTemplate;
-    private final ExternalApiConfig config;
 
-    public String getStats() {
+    public AcuWeatherDto getAllergyInfo() {
         URI url = UriComponentsBuilder
-                .fromHttpUrl(config.getAcuWeatherApiEndpoint())
-                .queryParam("apikey", config.getAcuWeatherApiKey())
+                .fromHttpUrl("http://dataservice.accuweather.com/forecasts/v1/daily/5day/274663")
+                .queryParam("apikey", "Q5bBRpmXrcwdwvrbHBBwDJDIH0xSi3dP")
                 .queryParam("language", "en-us")
                 .queryParam("details", "true")
                 .queryParam("metric", "true")
@@ -29,30 +28,29 @@ public class AcuWeatherClient {
                 .encode()
                 .toUri();
         System.out.println("ok");
-        String obj = restTemplate.getForObject(url, String.class);
-        JSONObject object = new JSONObject(obj);
+        String string = restTemplate.getForObject(url, String.class);
+        JSONObject object = new JSONObject(string);
 
-        JSONArray result1 = object.getJSONArray("DailyForecasts");
-        JSONObject result2 = result1.getJSONObject(0);
-        JSONArray result3 = result2.getJSONArray("AirAndPollen");
-        JSONObject result4 = result3.getJSONObject(0);
-        String result5 = result4.getString("Category");
-        return result5;
-    }
+        JSONArray array = object.getJSONArray("DailyForecasts");
+        JSONObject object1 = array.getJSONObject(0);
+        JSONArray array1 = object1.getJSONArray("AirAndPollen");
 
-    public String getNewStats() {
+        JSONObject object2 = array1.getJSONObject(1);
+        String grass = object2.getString("Category");
+        long grassValue = object2.getLong("Value");
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("X-RapidAPI-Key", "3cee0139ddmsh0b59ffec28e9384p1cebf0jsn23b3d97a4176");
-        headers.set("X-RapidAPI-Host", "covid-193.p.rapidapi.com");
+        JSONObject object3 = array1.getJSONObject(2);
+        String mold = object3.getString("Category");
+        long moldValue = object3.getLong("Value");
 
-        HttpEntity<String> entity = new HttpEntity<>(headers);
+        JSONObject object4 = array1.getJSONObject(3);
+        String ragweed = object4.getString("Category");
+        long ragweedValue = object4.getLong("Value");
 
-        ResponseEntity<String> response = restTemplate.exchange("https://covid-193.p.rapidapi.com/statistics", HttpMethod.GET, entity, String.class);
+        JSONObject object5 = array1.getJSONObject(4);
+        String tree = object5.getString("Category");
+        long treeValue = object5.getLong("Value");
 
-        String obj = response.getBody();
-
-        JSONObject object = new JSONObject(obj);
-        return object.getString("get");
+        return new AcuWeatherDto(grass,grassValue,mold,moldValue,ragweed,ragweedValue,tree,treeValue);
     }
 }

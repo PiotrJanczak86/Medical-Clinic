@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -25,5 +26,8 @@ public class UserService {
     public void deleteUser(Long id) throws UserNotFoundException{
         User toBeDeletedUser = repository.findById(id).orElseThrow(UserNotFoundException::new);
         repository.delete(toBeDeletedUser);
+    }
+    public Optional<User> getUserByLogin(String login){
+        return repository.findUserByLogin(login);
     }
 }

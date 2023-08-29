@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @CrossOrigin("*")
@@ -26,10 +27,14 @@ public class UserController {
         userService.saveUser(userMapper.mapToUser(userDto));
         return ResponseEntity.ok("New user " + userDto.getLogin() + " was successfully created");
     }
+    @GetMapping(value = "/check/{login}")
+    public ResponseEntity<Boolean> checkIfUserExists(@PathVariable String login){
+        return ResponseEntity.ok(userService.getUserByLogin(login).isPresent());
+    }
 
-    @GetMapping(value = "/{id}")
-    public ResponseEntity<UserDto> getUser(@PathVariable Long id) throws UserNotFoundException{
-        return ResponseEntity.ok(userMapper.mapToUserDto(userService.getUser(id)));
+    @GetMapping(value = "/{login}")
+    public ResponseEntity<UserDto> getUser(@PathVariable String login){
+        return ResponseEntity.ok(userMapper.mapToUserDto((userService.getUserByLogin(login).get())));
     }
 
     @GetMapping

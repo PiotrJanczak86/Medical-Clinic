@@ -8,5 +8,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AcuWeatherDto {
-    private String test;
+    private String grass;
+    private Long grassValue;
+    private String mold;
+    private Long MoldValue;
+    private String ragweed;
+    private Long ragweedValue;
+    private String tree;
+    private Long treeValue;
 }

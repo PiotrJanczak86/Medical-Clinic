@@ -31,6 +31,7 @@ public class Admin implements Observer {
     @JoinColumn(name = "USER_ID")
     private User user;
 
+    @Column(name = "LOGS")
     private String logs;
 
     @Override

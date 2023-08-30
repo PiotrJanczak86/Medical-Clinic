@@ -15,6 +15,7 @@ import org.springframework.web.client.RestTemplate;
 @RequiredArgsConstructor
 public class CovidClient {
     private final RestTemplate restTemplate;
+
     public CovidDataDto getTestsPoland() {
 
         HttpHeaders headers = new HttpHeaders();
@@ -28,19 +29,27 @@ public class CovidClient {
         String string = response.getBody();
         JSONObject object1 = new JSONObject(string);
         JSONArray array = object1.getJSONArray("response");
-        JSONObject object2 = array.getJSONObject(214);
+
+        JSONObject object2 = new JSONObject();
+
+        for (int i = 0; i < array.length();i++) {
+            JSONObject testObject = array.getJSONObject(i);
+            String test = testObject.getString("country");
+            if(test.equals("Poland")) object2 = testObject;
+        }
+
         JSONObject object3 = object2.getJSONObject("cases");
         long newCases;
-        if (object3.isNull("new")){
+        if (object3.isNull("new")) {
             newCases = 0L;
         } else newCases = object3.getLong("new");
         JSONObject object4 = object2.getJSONObject("deaths");
         long deaths;
-        if (object4.isNull("new")){
+        if (object4.isNull("new")) {
             deaths = 0L;
         } else deaths = object4.getLong("new");
         long critical;
-        if (object3.isNull("critical")){
+        if (object3.isNull("critical")) {
             critical = 0L;
         } else critical = object3.getLong("critical");
         return new CovidDataDto(deaths, newCases, critical);

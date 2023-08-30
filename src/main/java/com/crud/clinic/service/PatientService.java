@@ -22,6 +22,10 @@ public class PatientService {
         return repository.getPatientsByUser(userRepository.findById(userId).get());
     }
 
+    public Patient getPatientById(Long id){
+        return repository.getPatientsById(id);
+    }
+
     public Patient savePatient(Patient patient) {return repository.save(patient);}
 
     public void deletePatient(Long id) throws PatientNotFoundException{

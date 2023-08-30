@@ -16,7 +16,7 @@ import java.time.LocalTime;
 @Entity(name="CALENDAR")
 public class CalendarEntry {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name = "ID")
     private Long id;
 

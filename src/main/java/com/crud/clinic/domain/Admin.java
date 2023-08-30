@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Entity(name="ADMINS")
 public class Admin implements Observer {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name = "ID")
     private Long id;
 

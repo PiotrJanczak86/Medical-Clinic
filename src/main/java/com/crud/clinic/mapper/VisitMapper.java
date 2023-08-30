@@ -11,19 +11,24 @@ import com.crud.clinic.domain.dtos.VisitDto;
 import com.crud.clinic.service.CalendarEntryService;
 import com.crud.clinic.service.DoctorService;
 import com.crud.clinic.service.PatientService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class VisitMapper {
-    @Autowired
-    private DoctorService doctorService;
-    @Autowired
-    private PatientService patientService;
-    @Autowired
-    private CalendarEntryService calendarEntryService;
+
+    private final DoctorService doctorService;
+
+    private final PatientService patientService;
+
+    private final CalendarEntryService calendarEntryService;
+
+    public VisitMapper(DoctorService doctorService, PatientService patientService, CalendarEntryService calendarEntryService) {
+        this.doctorService = doctorService;
+        this.patientService = patientService;
+        this.calendarEntryService = calendarEntryService;
+    }
 
     public VisitDto mapToVisitDto(final Visit visit){
         List<Long> entriesIds = visit.getCalendarEntriesList().stream()
@@ -43,7 +48,7 @@ public class VisitMapper {
                 })
                 .toList();
         Patient patient = patientService.getPatient(visitDto.getPatientId());
-        Doctor doctor = doctorService.getDoctor(visitDto.getDoctorId());
+        Doctor doctor = doctorService.getDoctorById(visitDto.getDoctorId());
         return new Visit(null, patient, doctor, visitDto.getDescription(), entries);
     }
 

@@ -14,7 +14,7 @@ import java.time.LocalDate;
 @Entity(name = "ALLERGIES")
 public class AllergiesData {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name = "ID")
     private Long id;
 

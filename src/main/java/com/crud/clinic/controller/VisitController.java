@@ -22,6 +22,7 @@ public class VisitController {
 private final VisitService visitService;
 private final VisitMapper visitMapper;
 
+
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> createVisit(@RequestBody VisitDto visitDto) throws DoctorNotFoundException, PatientNotFoundException {
         visitService.saveVisit(visitMapper.mapToVisit(visitDto));
@@ -36,6 +37,11 @@ private final VisitMapper visitMapper;
     @GetMapping
     public ResponseEntity<List<VisitDto>> getVisits(){
         return ResponseEntity.ok(visitMapper.mapToVisitDtoList(visitService.getVisits()));
+    }
+
+    @GetMapping(value = "/doctor/{userId}")
+    public ResponseEntity<List<VisitDto>> getVisitsByDoctor(@PathVariable Long userId){
+        return ResponseEntity.ok(visitMapper.mapToVisitDtoList(visitService.findVisitsByUserId(userId)));
     }
 
     @DeleteMapping (value = "/{id}")

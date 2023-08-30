@@ -16,6 +16,7 @@ public interface DoctorRepository extends CrudRepository<Doctor, Long> {
 
     Doctor getDoctorByUser(User user);
 
+    Doctor getDoctorById(Long id);
     @Override
     List<Doctor> findAll();
 

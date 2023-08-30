@@ -29,9 +29,14 @@ private final DoctorMapper doctorMapper;
         return ResponseEntity.ok("ok");
     }
 
-    @GetMapping(value = "/{userId}")
+    @GetMapping(value = "/user/{userId}")
     public ResponseEntity<DoctorDto> getDoctor(@PathVariable Long userId) {
         return ResponseEntity.ok(doctorMapper.mapToDoctorDto(doctorService.getDoctor(userId)));
+    }
+
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<DoctorDto> getDoctorById(@PathVariable Long id){
+        return ResponseEntity.ok(doctorMapper.mapToDoctorDto(doctorService.getDoctorById(id)));
     }
 
     @GetMapping

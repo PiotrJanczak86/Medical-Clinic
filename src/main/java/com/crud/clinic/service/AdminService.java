@@ -17,7 +17,6 @@ public class AdminService {
     private final AdminRepository repository;
     private final UserRepository userRepository;
 
-
     public List<Admin> getAdmins(){return repository.findAll();}
 
     public Admin saveAdmin(Admin admin) {return repository.save(admin);}

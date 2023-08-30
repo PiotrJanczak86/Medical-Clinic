@@ -10,8 +10,6 @@ import java.time.LocalDate;
 
 @Service
 public class AccuWeatherMapper {
-    @Autowired
-    AccuWeatherService service;
 
     public AllergiesDataDto mapToAllergiesDataDto(AllergiesData allergiesData) {
         return new AllergiesDataDto(allergiesData.getGrass(), allergiesData.getGrassValue(), allergiesData.getMold(), allergiesData.getMoldValue(),

@@ -11,19 +11,24 @@ import com.crud.clinic.domain.dtos.DoctorDto;
 import com.crud.clinic.service.CalendarEntryService;
 import com.crud.clinic.service.UserService;
 import com.crud.clinic.service.VisitService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class DoctorMapper {
-    @Autowired
-    private VisitService visitService;
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private CalendarEntryService calendarEntryService;
+
+    private final VisitService visitService;
+
+    private final UserService userService;
+
+    private final CalendarEntryService calendarEntryService;
+
+    public DoctorMapper(VisitService visitService, UserService userService, CalendarEntryService calendarEntryService) {
+        this.visitService = visitService;
+        this.userService = userService;
+        this.calendarEntryService = calendarEntryService;
+    }
 
     public DoctorDto mapToDoctorDto(final Doctor doctor){
         List<Long> visitIds = doctor.getVisitList().stream()
@@ -34,7 +39,7 @@ public class DoctorMapper {
                 .map(CalendarEntry::getId)
                 .toList();
 
-        return new DoctorDto(doctor.getName(), doctor.getLastname(), doctor.getSpecialization(), doctor.getUser().getId(), doctor.getMail(), entryIds, visitIds);
+        return new DoctorDto(doctor.getId(), doctor.getName(), doctor.getLastname(), doctor.getSpecialization(), doctor.getUser().getId(), doctor.getMail(), entryIds, visitIds);
     }
 
     public Doctor mapToDoctor(final DoctorDto doctorDto) throws UserNotFoundException {

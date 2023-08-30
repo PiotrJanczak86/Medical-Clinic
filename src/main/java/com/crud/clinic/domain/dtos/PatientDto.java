@@ -8,6 +8,7 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 public class PatientDto {
+    private Long id;
     private String name;
     private String lastname;
     private int pesel;

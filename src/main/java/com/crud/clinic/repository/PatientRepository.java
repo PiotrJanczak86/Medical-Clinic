@@ -16,6 +16,8 @@ public interface PatientRepository extends CrudRepository<Patient, Long> {
 
     Patient getPatientsByUser(User user);
 
+    Patient getPatientsById(Long id);
+
     @Override
     List<Patient> findAll();
 

@@ -10,8 +10,6 @@ import java.time.LocalDate;
 
 @Service
 public class CovidMapper {
-    @Autowired
-    CovidService service;
 
     public CovidDataDto mapToCovidDataDto(final CovidData covidData) {
         return new CovidDataDto(covidData.getDeaths(), covidData.getCases(), covidData.getCritical());

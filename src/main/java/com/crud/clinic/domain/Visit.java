@@ -15,7 +15,7 @@ import java.util.List;
 @Entity(name="VISITS")
 public class Visit {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name = "ID")
     private Long id;
 
@@ -33,6 +33,7 @@ public class Visit {
     private String description;
 
     @OneToMany(targetEntity = CalendarEntry.class,
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE},
             mappedBy = "visit",
             fetch = FetchType.EAGER)
     private List<CalendarEntry> calendarEntriesList = new ArrayList<>();

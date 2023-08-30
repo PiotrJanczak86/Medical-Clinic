@@ -8,23 +8,27 @@ import com.crud.clinic.domain.Visit;
 import com.crud.clinic.domain.dtos.PatientDto;
 import com.crud.clinic.service.UserService;
 import com.crud.clinic.service.VisitService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class PatientMapper {
-    @Autowired
-    private VisitService visitService;
-    @Autowired
-    private UserService userService;
+
+    private final VisitService visitService;
+
+    private final UserService userService;
+
+    public PatientMapper(VisitService visitService, UserService userService) {
+        this.visitService = visitService;
+        this.userService = userService;
+    }
 
     public PatientDto mapToPatientDto(final Patient patient) {
         List<Long> visitIds = patient.getVisitList().stream()
                 .map(Visit::getId)
                 .toList();
-        return new PatientDto(patient.getName(), patient.getLastname(), patient.getPesel(), patient.getId(), patient.getMail(), visitIds);
+        return new PatientDto(patient.getId(), patient.getName(), patient.getLastname(), patient.getPesel(), patient.getId(), patient.getMail(), visitIds);
     }
 
     public Patient mapToPatient(final PatientDto patientDto) throws UserNotFoundException {
@@ -36,7 +40,7 @@ public class PatientMapper {
                         throw new RuntimeException(e);
                     }
                 }).toList();
-        User user = userService.getUser(patientDto.getUserId());
+            User user = userService.getUser(patientDto.getUserId());
         return new Patient(null, patientDto.getName(), patientDto.getLastname(), patientDto.getPesel(), user, patientDto.getMail(), visits);
     }
 

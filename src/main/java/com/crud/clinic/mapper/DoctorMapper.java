@@ -22,7 +22,6 @@ public class DoctorMapper {
     private VisitService visitService;
     @Autowired
     private UserService userService;
-
     @Autowired
     private CalendarEntryService calendarEntryService;
 

@@ -27,9 +27,9 @@ public class PatientController {
         return ResponseEntity.ok("ok");
     }
 
-    @GetMapping(value = "/{id}")
-    public ResponseEntity<Object> getPatient(@PathVariable Long id)throws PatientNotFoundException {
-        return ResponseEntity.ok(patientMapper.mapToPatientDto(patientService.getPatient(id)));
+    @GetMapping(value = "/{userId}")
+    public ResponseEntity<Object> getPatient(@PathVariable Long userId) {
+        return ResponseEntity.ok(patientMapper.mapToPatientDto(patientService.getPatient(userId)));
     }
 
     @GetMapping

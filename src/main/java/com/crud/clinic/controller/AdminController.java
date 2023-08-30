@@ -26,6 +26,11 @@ public class AdminController {
         return ResponseEntity.ok("ok");
     }
 
+    @GetMapping(value = "/{userId}")
+    public ResponseEntity<AdminDto> getAdmin(@PathVariable Long userId){
+        return ResponseEntity.ok(adminMapper.mapToAdminDto(adminService.getAdmin(userId)));
+    }
+
     @GetMapping
     public ResponseEntity<List<AdminDto>> getAdmins(){
         return ResponseEntity.ok(adminMapper.mapToAdminDtoList(adminService.getAdmins()));

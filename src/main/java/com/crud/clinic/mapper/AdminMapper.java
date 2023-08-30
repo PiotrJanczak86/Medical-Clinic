@@ -16,11 +16,11 @@ public class AdminMapper {
     private UserService userService;
     public Admin mapToAdmin(final AdminDto adminDto) throws UserNotFoundException {
         User user = userService.getUser(adminDto.getUserId());
-        return new Admin(null, adminDto.getName(), adminDto.getLastname(), user, null);
+        return new Admin(null, adminDto.getName(), adminDto.getLastname(), user, adminDto.getLogs());
     }
 
     public AdminDto mapToAdminDto(final Admin admin){
-        return new AdminDto(admin.getName(), admin.getLastname(), admin.getUser().getId());
+        return new AdminDto(admin.getName(), admin.getLastname(), admin.getUser().getId(), admin.getLogs());
     }
 
     public List<AdminDto> mapToAdminDtoList(final List<Admin> adminList){

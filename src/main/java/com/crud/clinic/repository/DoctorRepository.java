@@ -1,6 +1,7 @@
 package com.crud.clinic.repository;
 
 import com.crud.clinic.domain.Doctor;
+import com.crud.clinic.domain.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,8 +14,7 @@ public interface DoctorRepository extends CrudRepository<Doctor, Long> {
     @Override
     Doctor save(Doctor doctor);
 
-    @Override
-    Optional<Doctor> findById(Long id);
+    Doctor getDoctorByUser(User user);
 
     @Override
     List<Doctor> findAll();

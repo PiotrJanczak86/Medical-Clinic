@@ -5,6 +5,7 @@ import com.crud.clinic.domain.Doctor;
 import com.crud.clinic.domain.observer.Observable;
 import com.crud.clinic.domain.observer.Observer;
 import com.crud.clinic.repository.DoctorRepository;
+import com.crud.clinic.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,12 +16,14 @@ import java.util.List;
 public class DoctorService implements Observable {
 
     private final DoctorRepository repository;
+    private final UserRepository userRepository;
     private final List<Observer> observers;
+
 
     public List<Doctor> getDoctors(){return repository.findAll();}
 
-    public Doctor getDoctor(Long id) throws DoctorNotFoundException {
-        return repository.findById(id).orElseThrow(DoctorNotFoundException::new);
+    public Doctor getDoctor(Long userId){
+        return repository.getDoctorByUser(userRepository.findById(userId).get());
     }
 
     public Doctor saveDoctor(Doctor doctor) {return repository.save(doctor);}

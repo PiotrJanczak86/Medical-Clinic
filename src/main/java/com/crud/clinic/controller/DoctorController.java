@@ -21,15 +21,17 @@ public class DoctorController {
 private final DoctorService doctorService;
 private final DoctorMapper doctorMapper;
 
+
+
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> createDoctor(@RequestBody DoctorDto doctorDto) throws UserNotFoundException {
         doctorService.saveDoctor(doctorMapper.mapToDoctor(doctorDto));
         return ResponseEntity.ok("ok");
     }
 
-    @GetMapping(value = "/{id}")
-    public ResponseEntity<DoctorDto> getDoctor(@PathVariable Long id) throws DoctorNotFoundException {
-        return ResponseEntity.ok(doctorMapper.mapToDoctorDto(doctorService.getDoctor(id)));
+    @GetMapping(value = "/{userId}")
+    public ResponseEntity<DoctorDto> getDoctor(@PathVariable Long userId) {
+        return ResponseEntity.ok(doctorMapper.mapToDoctorDto(doctorService.getDoctor(userId)));
     }
 
     @GetMapping
